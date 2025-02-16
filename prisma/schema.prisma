@@ -12,7 +12,8 @@ model Task {
     title       String
     description String?
     dueDate     DateTime?
-    priority    String?
+    priority    Priority  @relation(fields: [priorityId], references: [id])
+    priorityId  Int
     status      Status    @relation(fields: [statusId], references: [id])
     statusId    Int
     valueAdded  String?
@@ -40,6 +41,11 @@ model Status {
     updatedAt DateTime @updatedAt
 }
 
-
-
-
+model Priority {
+    id        Int      @id @default(autoincrement())
+    name      String   @unique
+    color     String   @default("#000000")
+    tasks     Task[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

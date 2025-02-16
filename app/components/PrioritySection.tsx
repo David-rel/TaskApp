@@ -18,10 +18,10 @@ interface Task {
     name: string;
     color: string;
   };
-  daysLeft?: number | null; // Keep this for the UI calculation
+  daysLeft?: number | null;
 }
 
-interface CategorySectionProps {
+interface PrioritySectionProps {
   title: string;
   tasks: Task[];
   isExpanded: boolean;
@@ -29,13 +29,13 @@ interface CategorySectionProps {
   color: string;
 }
 
-export default function CategorySection({
+export default function PrioritySection({
   title,
   tasks,
   isExpanded,
   onToggle,
   color,
-}: CategorySectionProps) {
+}: PrioritySectionProps) {
   return (
     <div
       className={`bg-white rounded-lg shadow-sm transition-all duration-200 ${
@@ -72,7 +72,7 @@ export default function CategorySection({
             <tr className="border-b">
               <th className="text-left pb-2">Task</th>
               <th className="text-left pb-2">Status</th>
-              <th className="text-left pb-2">Priority</th>
+              <th className="text-left pb-2">Category</th>
               <th className="text-left pb-2">Due Date</th>
               <th className="text-left pb-2">Days Left</th>
             </tr>
@@ -89,7 +89,14 @@ export default function CategorySection({
                     {task.status.name}
                   </span>
                 </td>
-                <td className="py-2">{task.priority.name}</td>
+                <td className="py-2">
+                  <span
+                    className="px-2 py-1 rounded-sm"
+                    style={{ backgroundColor: task.category.color }}
+                  >
+                    {task.category.name}
+                  </span>
+                </td>
                 <td className="py-2">
                   {task.dueDate
                     ? new Date(task.dueDate).toLocaleDateString("en-US", {

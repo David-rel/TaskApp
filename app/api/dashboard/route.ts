@@ -7,18 +7,20 @@ const prisma = new PrismaClient();
 export async function GET() {
   try {
     // Fetch all data concurrently
-    const [tasks, categories, statuses] = await Promise.all([
+    const [tasks, categories, statuses, priorities] = await Promise.all([
       prisma.task.findMany({
         include: {
           category: true,
+          priority: true,
           status: true,
         },
       }),
       prisma.category.findMany(),
       prisma.status.findMany(),
+      prisma.priority.findMany(),
     ]);
 
-    return NextResponse.json({ tasks, categories, statuses });
+    return NextResponse.json({ tasks, categories, statuses, priorities });
   } catch (error) {
     console.error("Error fetching dashboard data:", error);
     return NextResponse.json(

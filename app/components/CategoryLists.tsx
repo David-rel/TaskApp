@@ -2,12 +2,24 @@ import React, { useState } from "react";
 import CategorySection from "./CategorySection";
 
 interface Task {
+  id: number;
   title: string;
-  dueDate: string;
-  daysLeft: number | null;
-  category: { name: string; color: string };
-  priority: string;
-  status: { name: string; color: string };
+  description?: string;
+  dueDate?: string;
+  valueAdded?: string | null;
+  category: {
+    name: string;
+    color: string;
+  };
+  status: {
+    name: string;
+    color: string;
+  };
+  priority: {
+    name: string;
+    color: string;
+  };
+  daysLeft?: number | null;
 }
 
 interface CategoryListsProps {
@@ -66,7 +78,7 @@ export default function CategoryLists({
         <CategorySection
           key={section.id}
           title={section.title}
-          tasks={section.tasks}
+          tasks={section.tasks as Task[]}
           isExpanded={expandedSections[section.id] ?? true}
           onToggle={() => toggleSection(section.id)}
           color={section.color}

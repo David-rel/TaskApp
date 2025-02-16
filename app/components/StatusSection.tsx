@@ -1,11 +1,24 @@
 import React from "react";
 
 interface Task {
+  id: number;
   title: string;
-  dueDate: string;
-  daysLeft: number | null;
-  category: { name: string; color: string };
-  priority: string;
+  description?: string;
+  dueDate?: string;
+  valueAdded?: string | null;
+  category: {
+    name: string;
+    color: string;
+  };
+  status: {
+    name: string;
+    color: string;
+  };
+  priority: {
+    name: string;
+    color: string;
+  };
+  daysLeft?: number | null; // Keep this for the UI calculation
 }
 
 interface TaskSectionProps {
@@ -76,8 +89,16 @@ export default function TaskSection({
                     {task.category.name}
                   </span>
                 </td>
-                <td className="py-2">{task.priority}</td>
-                <td className="py-2">{task.dueDate}</td>
+                <td className="py-2">{task.priority.name}</td>
+                <td className="py-2">
+                  {task.dueDate
+                    ? new Date(task.dueDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })
+                    : ""}
+                </td>
                 <td className="py-2">{task.daysLeft}</td>
               </tr>
             ))}

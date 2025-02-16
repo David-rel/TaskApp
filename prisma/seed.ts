@@ -28,6 +28,7 @@ async function main() {
   await prisma.task.deleteMany({});
   await prisma.category.deleteMany({});
   await prisma.status.deleteMany({});
+  await prisma.priority.deleteMany({});
 
   // Create Categories
   const categories = await Promise.all([
@@ -68,6 +69,28 @@ async function main() {
     prisma.status.create({
       data: {
         name: "Done",
+        color: "#66BB6A",
+      },
+    }),
+  ]);
+
+  // Create Priorities
+  const priorities = await Promise.all([
+    prisma.priority.create({
+      data: {
+        name: "High",
+        color: "#FF4444",
+      },
+    }),
+    prisma.priority.create({
+      data: {
+        name: "Medium",
+        color: "#FFA726",
+      },
+    }),
+    prisma.priority.create({
+      data: {
+        name: "Low",
         color: "#66BB6A",
       },
     }),
@@ -149,7 +172,6 @@ async function main() {
     ],
   };
 
-  const priorities = ["High", "Medium", "Low"];
   const valueAddedOptions = [
     "Critical for business operations",
     "Improves team productivity",
@@ -170,7 +192,7 @@ async function main() {
         title: template.title,
         description: template.description,
         dueDate: getRandomFutureDate(),
-        priority: getRandomItem(priorities),
+        priorityId: getRandomItem(priorities).id,
         statusId: getRandomItem(statuses).id,
         valueAdded: getRandomItem(valueAddedOptions),
         categoryId: category.id,
